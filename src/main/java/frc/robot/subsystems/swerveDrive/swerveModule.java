@@ -50,16 +50,28 @@ public class swerveModule {
     
   }
 
-
+  /**
+   * Sets current module's speed.
+   * @param speed in meters per second.
+   */
   public void setSpeed(double speed){
     driveMotor.set(speed);
   }
 
-  // Set turn angle to a specific position using PIDController with relative encoder:
+  
+  /**
+   *  Sets turn angle to a specific position using PIDController with relative encoder.
+   * @param angle 
+   */
   public void setAngle(double angle){
     turnMotor.set(turnPIDController.calculate(turnEncoder.getPosition(), angle));
   }
 
+  /**
+   * Resets current module's drive encoder postiion to zero.
+   * Sets the turn encoder to our Abs encoder position to 
+   * never lose its location.
+   */
   public void resetEncoders(){
     driveEncoder.setPosition(0);
     // Set turn encoder to abs Encoder to initialize (reset) it:
@@ -68,49 +80,87 @@ public class swerveModule {
 
   // Create all methods for debugging purposes:
 
+  /**
+   * Get Drive Speed()
+   * @returns current module's linear speed in m/s
+   */
   public double getDriveSpeed(){
     return driveMotor.get();
   }
 
+  /**
+   * Get Turn Speed()
+   * @returns our current module's angular speed.
+   */
   public double getTurnSpeed(){
     return turnMotor.get();
   }
-
+  
+  /**
+   * Get Absolute Position()
+   * @returns our modul'es current absolute encoder position.
+   */
   public double getAbsPosition(){
     return absEncoder.getPosition();
   }
 
+  /**
+   * Get Drive Position()
+   * @returns our current module's drive relative encoder position.
+   */
   public double getDrivePosition(){
     return driveEncoder.getPosition();
   }
 
+  /**
+   * Get Turn Position()
+   * @returns our current module's turn motor relative encoder position.
+   */
   public double getTurnPosition(){
     return turnEncoder.getPosition();
   }
 
+  /**
+   * Get Drive Inverted()
+   * @returns our current module's drive motor state: inverted or not.
+   */
   public boolean getDriveInverted(){
     return driveMotor.getInverted();
   }
 
+  /**
+   * Get Turn Inverted()
+   * @returns our current module's turn motor state: inverted or not.
+   */
   public boolean getTurnInverted(){
     return turnMotor.getInverted();
   }
 
+  /**
+   * Stop ()
+   * Sets our module's velocity to zero.
+   */
   public void stopModule(){
     driveMotor.set(0);
     turnMotor.set(0);
   }
 
+  /**
+   * Set Desired State()
+   * @param desiredState is a SwerveModule object created in our Swerve Subsystem,
+   * which uses our kinematics to set the accurate state desired for our module to
+   * be in.
+   * Sets a controller deadband to override all values less than 0.05.
+   */
   public void setDesiredState(SwerveModuleState desiredState){
 
     // Joystick deadband to override all values lees than 0.05 (save in a ks file)
-
     if (Math.abs(desiredState.speedMetersPerSecond) < 0.05){
         stopModule();
     }
 
     // get desired state's properties and set them to motors.
-    driveMotor.set(desiredState.speedMetersPerSecond / 6);
+    driveMotor.set(desiredState.speedMetersPerSecond / 6); // Go to full velocity. s
     setAngle(desiredState.angle.getRadians());
 
   }
