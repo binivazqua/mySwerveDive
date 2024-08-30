@@ -1,6 +1,7 @@
 package frc.robot.utilities;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 public final class myConstants {
     
@@ -47,6 +48,15 @@ public final class myConstants {
 
     public static final class SwerveSubsystemKs { 
 
+        public static final double maxDriveSpeed = 6;
+        public static final double maxDriveAcc = 6;
+
+        public static final double maxStrafeAcc = 6;
+        public static final double maxTurnAcc = 6;
+
+
+
+
         // separate kinematics class to organize our SwerveDrive subsystem
         public static class SwerveKinematics {
             
@@ -55,11 +65,19 @@ public final class myConstants {
             public static final double wheelBase = 20;
 
             // Swerve Drive Kinematics Coordinates 
+            
+            
             public static final Translation2d frontRightModuleCoords= new Translation2d(wheelBase / 2, trackWidth / 2);
             public static final Translation2d frontLeftModuleCoords= new Translation2d(wheelBase / 2, - trackWidth / 2);
             public static final Translation2d backLeftModuleCoords= new Translation2d(- wheelBase / 2, trackWidth / 2);
             public static final Translation2d backRighttModuleCoords= new Translation2d(- wheelBase / 2, - trackWidth / 2);
+        
 
+            public static final SwerveDriveKinematics swerveDriveKinematics = new SwerveDriveKinematics(
+                new Translation2d(wheelBase / 2, trackWidth / 2),
+                new Translation2d(wheelBase / 2, - trackWidth / 2),
+                new Translation2d(- wheelBase / 2, trackWidth / 2),
+                new Translation2d(- wheelBase / 2, - trackWidth / 2));
         }
         
     }

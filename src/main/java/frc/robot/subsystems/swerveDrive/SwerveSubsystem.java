@@ -1,6 +1,7 @@
 package frc.robot.subsystems.swerveDrive;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
@@ -72,14 +73,22 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     double loggingStates[] = {
-        0,
-        3,
-        45,
-        3,
-        90,
-        3,
-        120,
-        3,
+        frontLeftModule.getState().angle.getDegrees(),
+        frontLeftModule.getState().speedMetersPerSecond,
+        frontRightModule.getState().angle.getDegrees(),
+        frontRightModule.getState().speedMetersPerSecond,
+        backLeftModule.getState().angle.getDegrees(),
+        backLeftModule.getState().speedMetersPerSecond,
+        backRightModule.getState().angle.getDegrees(),
+        backRightModule.getState().speedMetersPerSecond,
+        
+    };
+
+    SwerveModuleState states[] = {
+      frontLeftModule.getState(),
+      frontRightModule.getState(),
+      backLeftModule.getState(),
+      backRightModule.getState()
     };
 
     SmartDashboard.putNumberArray("Swerve States", loggingStates);
@@ -117,6 +126,9 @@ public class SwerveSubsystem extends SubsystemBase {
     return navX.getAngle();
   }
 
+  public Rotation2d getRotation2d(){
+    return Rotation2d.fromDegrees(getHeading());
+  }
   /**
    * Reset Heading
    * Turns our bot's heading to zero.
@@ -171,6 +183,23 @@ public class SwerveSubsystem extends SubsystemBase {
     backRightModule.resetEncoders();
 
     System.out.println("All encoders are reseted.");
+  }
+
+  public void setModuleStates(SwerveModuleState[] desiredStates){
+
+    myConstants.SwerveSubsystemKs.SwerveKinematics.swerveDriveKinematics.desaturateWheelSpeeds(desiredStates, myConstants.SwerveSubsystemKs.maxDriveSpeed);
+    frontLeftModule.setDesiredState(desiredStates[0]);
+    frontRightModule.setDesiredState(desiredStates[1]);
+    backLeftModule.setDesiredState(desiredStates[2]);
+    backLeftModule.setDesiredState(desiredStates[3]);
+  }
+
+  /* ++++++++++++++++++++++++ command funcs ++++++++++++++++++++++ */
+
+  public void initRobot(){
+    resetHeading();
+    resetModules();
+    System.out.println("Modules and heading reseted.");
   }
 
 
