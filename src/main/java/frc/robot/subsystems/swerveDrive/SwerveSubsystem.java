@@ -1,4 +1,6 @@
 package frc.robot.subsystems.swerveDrive;
+import java.util.function.Supplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -46,7 +48,7 @@ public class SwerveSubsystem extends SubsystemBase {
       myConstants.SwerveModuleKs.BackRightModuleKs.DriveID, 
       myConstants.SwerveModuleKs.BackRightModuleKs.TurnID, 
         4, 
-      myConstants.SwerveModuleKs.BackLeftModuleKs.driveInverted, 
+      myConstants.SwerveModuleKs.BackRightModuleKs.driveInverted, 
       myConstants.SwerveModuleKs.BackRightModuleKs.turnInverted
     );
 
@@ -84,6 +86,21 @@ public class SwerveSubsystem extends SubsystemBase {
         
     };
 
+     // This method will be called once per scheduler run
+     double testStates[] = {
+      45,
+      1,
+      45,
+      1,
+      45,
+      1,
+      45,
+      5
+     };
+      
+  
+
+
     SwerveModuleState states[] = {
       frontLeftModule.getState(),
       frontRightModule.getState(),
@@ -91,8 +108,7 @@ public class SwerveSubsystem extends SubsystemBase {
       backRightModule.getState()
     };
 
-    SmartDashboard.putNumberArray("Swerve States", loggingStates);
-
+    SmartDashboard.putNumberArray("Swerve States", testStates);
   }
 
   @Override
@@ -191,7 +207,7 @@ public class SwerveSubsystem extends SubsystemBase {
     frontLeftModule.setDesiredState(desiredStates[0]);
     frontRightModule.setDesiredState(desiredStates[1]);
     backLeftModule.setDesiredState(desiredStates[2]);
-    backLeftModule.setDesiredState(desiredStates[3]);
+    backRightModule.setDesiredState(desiredStates[3]);
   }
 
   /* ++++++++++++++++++++++++ command funcs ++++++++++++++++++++++ */
