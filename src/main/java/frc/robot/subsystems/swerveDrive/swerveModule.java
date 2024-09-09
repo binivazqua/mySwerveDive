@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.utilities.myConstants.SwerveSubsystemKs;
 
 public class swerveModule {
 
@@ -37,7 +38,8 @@ public class swerveModule {
     this.turnEncoder = turnMotor.getEncoder();
     this.absEncoder = turnMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
 
-    this.turnPIDController = new PIDController(0.266, 0, 0);
+    // null PID gains --> need to be calculated
+    this.turnPIDController = new PIDController(SwerveSubsystemKs.kTurnDrive, 0, 0);
 
     // Keep inverted values in a separate  ks file to get easier access to 'em:
     driveMotor.setInverted(driveInverted);

@@ -2,10 +2,26 @@ package frc.robot.utilities;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 public final class myConstants {
     
     public static final class SwerveModuleKs {
+
+        public static final class ConversionFactorKs {
+            // our swerve drive wheels are 4 inches width.
+            public static final double wheelDiameterMeters = Units.inchesToMeters(4); 
+            /**
+             * 1 : 73 ratio, which means that every 7.13 motor rotations, the wheel makes 1 full rot.
+             */
+            public static final double driveMotorGearRatio = 1 / 7.13; 
+
+            /**
+             * 1 : 13.71 ratio, which means that every 13.71 motor rotations, the TURN wheel makes 1 full rot.
+             */
+            public static final double m = 1 / 13.71; 
+
+        }
 
         /* +++++++++++++++++++++++ MODULE INDIVIDUAL Ks +++++++++++++++++++++ */
         // front right module
@@ -54,6 +70,7 @@ public final class myConstants {
         public static final double maxStrafeAcc = 6;
         public static final double maxTurnAcc = 6;
 
+        public static final double kTurnDrive = 0.255;
 
 
 
