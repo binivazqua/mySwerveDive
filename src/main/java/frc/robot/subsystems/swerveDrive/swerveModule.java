@@ -37,7 +37,7 @@ public class swerveModule {
     this.turnEncoder = turnMotor.getEncoder();
     this.absEncoder = turnMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
 
-    this.turnPIDController = new PIDController(0, 0, 0);
+    this.turnPIDController = new PIDController(0.266, 0, 0);
 
     // Keep inverted values in a separate  ks file to get easier access to 'em:
     driveMotor.setInverted(driveInverted);

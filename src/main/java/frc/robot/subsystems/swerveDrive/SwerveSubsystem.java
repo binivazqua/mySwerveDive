@@ -4,12 +4,15 @@ import java.util.function.Supplier;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utilities.myConstants;;
+import frc.robot.utilities.myConstants;
+import frc.robot.utilities.myConstants.SwerveSubsystemKs.SwerveKinematics;;
 
 public class SwerveSubsystem extends SubsystemBase {
 
@@ -63,16 +66,31 @@ public class SwerveSubsystem extends SubsystemBase {
     // We create a swervedrive instance 
     private static SwerveSubsystem instance;
 
-
+    private Joystick controlDriver;
 
   /** Creates a new ExampleSubsystem. */
-  public SwerveSubsystem() {
+  public SwerveSubsystem(Joystick control) {
     System.out.println("Swerve Subsystem has been properly initialized");
+    this.controlDriver = control;
+
     
   }
 
+  
+
   @Override
   public void periodic() {
+
+    ChassisSpeeds newDesiredChassisSpeeds = new ChassisSpeeds(
+      controlDriver.getRawAxis(1),
+      controlDriver.getRawAxis(0),
+      controlDriver.getRawAxis(2)
+    );
+
+    setChassisSpeeds(newDesiredChassisSpeeds);
+
+   
+
     // This method will be called once per scheduler run
     double loggingStates[] = {
         frontLeftModule.getState().angle.getDegrees(),
@@ -108,7 +126,12 @@ public class SwerveSubsystem extends SubsystemBase {
       backRightModule.getState()
     };
 
-    SmartDashboard.putNumberArray("Swerve States", testStates);
+      SmartDashboard.putNumberArray("MODULE STATES", loggingStates);
+    //System.out.println("Swerve States: "+ loggingStates);
+    System.out.println("MODLE 1 ROT: "+ frontLeftModule.getState().angle.getDegrees());
+    //System.out.println("MODULE 1 DRIVE: " + frontLeftModule.getState().speedMetersPerSecond);
+
+
   }
 
   @Override
@@ -123,11 +146,25 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return instance of Swerve Subsystem if null (one in use)
    */
 
+    /* 
   public static SwerveSubsystem getInstance(){
     if(instance == null){
       instance = new SwerveSubsystem();
     }
     return instance;
+  }
+  */
+
+  public void setChassisSpeeds(ChassisSpeeds myChassisSpeeds){
+    SwerveModuleState[] newStates = SwerveKinematics.swerveDriveKinematics.toSwerveModuleStates(myChassisSpeeds);
+
+    //Set Chassis Speeds
+    frontLeftModule.setDesiredState(newStates[0]);
+    frontRightModule.setDesiredState(newStates[1]);
+    backLeftModule.setDesiredState(newStates[2]);
+    backRightModule.setDesiredState(newStates[3]);
+
+    
   }
 
   /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */

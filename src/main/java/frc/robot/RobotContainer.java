@@ -17,9 +17,12 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    mySwerve = SwerveSubsystem.getInstance();
+    //mySwerve = SwerveSubsystem.getInstance();
     driverControl = new Joystick(0);
+    mySwerve = new SwerveSubsystem(driverControl);
 
+
+      /* 
     mySwerve.setDefaultCommand(new SwerveDriveCmd(
       () -> driverControl.getRawAxis(1),
       () -> driverControl.getRawAxis(0),
@@ -35,7 +38,7 @@ public class RobotContainer {
         return IFO;
         
       }
-    ));
+    )); */
     configureBindings();
   }
 
