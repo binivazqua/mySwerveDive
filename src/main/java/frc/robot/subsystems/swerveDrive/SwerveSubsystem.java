@@ -66,12 +66,12 @@ public class SwerveSubsystem extends SubsystemBase {
     // We create a swervedrive instance 
     private static SwerveSubsystem instance;
 
-    private Joystick controlDriver;
+    //private Joystick controlDriver;
 
   /** Creates a new ExampleSubsystem. */
-  public SwerveSubsystem(Joystick control) {
+  public SwerveSubsystem() {
     System.out.println("Swerve Subsystem has been properly initialized");
-    this.controlDriver = control;
+    //this.controlDriver = control;
 
     
   }
@@ -81,6 +81,8 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
+    /* 
+
     ChassisSpeeds newDesiredChassisSpeeds = new ChassisSpeeds(
       controlDriver.getRawAxis(1),
       controlDriver.getRawAxis(0),
@@ -88,18 +90,18 @@ public class SwerveSubsystem extends SubsystemBase {
     );
 
     setChassisSpeeds(newDesiredChassisSpeeds);
-
+*/
    
 
     // This method will be called once per scheduler run
     double loggingStates[] = {
-        frontLeftModule.getState().angle.getDegrees(),
+        frontLeftModule.getState().angle.getRadians(),
         frontLeftModule.getState().speedMetersPerSecond,
-        frontRightModule.getState().angle.getDegrees(),
+        frontRightModule.getState().angle.getRadians(),
         frontRightModule.getState().speedMetersPerSecond,
-        backLeftModule.getState().angle.getDegrees(),
+        backLeftModule.getState().angle.getRadians(),
         backLeftModule.getState().speedMetersPerSecond,
-        backRightModule.getState().angle.getDegrees(),
+        backRightModule.getState().angle.getRadians(),
         backRightModule.getState().speedMetersPerSecond,
         
     };
@@ -129,7 +131,7 @@ public class SwerveSubsystem extends SubsystemBase {
       SmartDashboard.putNumberArray("MODULE STATES", loggingStates);
     //System.out.println("Swerve States: "+ loggingStates);
     System.out.println("MODLE 1 ROT: "+ frontLeftModule.getState().angle.getDegrees());
-    //System.out.println("MODULE 1 DRIVE: " + frontLeftModule.getState().speedMetersPerSecond);
+    System.out.println("MODULE 1 DRIVE: " + frontLeftModule.getState().speedMetersPerSecond);
 
 
   }
@@ -146,14 +148,14 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return instance of Swerve Subsystem if null (one in use)
    */
 
-    /* 
+    
   public static SwerveSubsystem getInstance(){
     if(instance == null){
       instance = new SwerveSubsystem();
     }
     return instance;
   }
-  */
+  
 
   public void setChassisSpeeds(ChassisSpeeds myChassisSpeeds){
     SwerveModuleState[] newStates = SwerveKinematics.swerveDriveKinematics.toSwerveModuleStates(myChassisSpeeds);

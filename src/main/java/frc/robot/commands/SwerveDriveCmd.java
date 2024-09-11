@@ -39,8 +39,8 @@ public class SwerveDriveCmd extends Command {
   Supplier<Double> strafeSupp, 
   Supplier<Double> turnSupp, 
   Supplier<Boolean> isFieldOriented){
-    //swerveDrive = SwerveSubsystem.getInstance();
-    swerveDrive = new SwerveSubsystem(controlDriverX);
+    swerveDrive = SwerveSubsystem.getInstance();
+    //swerveDrive = new SwerveSubsystem();
     this.driveSupp = driveSupp;
     this.strafeSupp = strafeSupp;
     this.turnSupp = turnSupp;
@@ -92,6 +92,8 @@ public class SwerveDriveCmd extends Command {
      * Our ChassisSpeeds object takes in our "formated" velocities, our heading 
      * (either as a Rotation2d object or an angle).
     */
+    ChassisSpeeds swerveDriveSpeeds;
+    /* 
     ChassisSpeeds swerveDriveSpeeds = isFieldOriented.get() ? 
     ChassisSpeeds.fromFieldRelativeSpeeds(
       driveVel, 
@@ -99,7 +101,21 @@ public class SwerveDriveCmd extends Command {
       turnVel,
       swerveDrive.getRotation2d()
     ) : new ChassisSpeeds(driveVel,strafeVel,turnVel); 
-
+*/
+if(isFieldOriented.get()){
+  swerveDriveSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+    driveVel, 
+    strafeVel,
+    turnVel,
+    swerveDrive.getRotation2d()
+  );
+} else {
+  swerveDriveSpeeds = new ChassisSpeeds(
+    driveVel,
+    strafeVel,
+    turnVel
+  );
+}
     /**
      * Our ChassisSpeeds object is now converted into a SwerveModuleStates (contained in an array as our
      * subsystem requieres them to be).
@@ -109,21 +125,8 @@ public class SwerveDriveCmd extends Command {
     // WE FINALLY set our states to this new array.
     swerveDrive.setModuleStates(desiredStates);
 
-    /* 
-    if(isFieldOriented.get()){
-      swerveDriveSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        driveVel, 
-        strafeVel,
-        turnVel,
-        swerveDrive.getRotation2d()
-      );
-    } else {
-      swerveDriveSpeeds = new ChassisSpeeds(
-        driveVel,
-        strafeVel,
-        turnVel
-      );
-    }*/
+    
+    
 
     
   }

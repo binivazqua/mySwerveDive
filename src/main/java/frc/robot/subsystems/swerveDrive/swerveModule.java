@@ -48,6 +48,12 @@ public class swerveModule {
     // Optimize turning control enabling Continuous Input in radians:
     turnPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
+    /**
+     * We initialize all our motors and gains in order to start from zeros.
+     */
+
+     resetEncoders();
+     
 
     
   }

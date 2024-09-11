@@ -78,14 +78,14 @@ public final class myConstants {
         public static class SwerveKinematics {
             
             // chassis dimensions in inches
-            public static final double trackWidth = 20;
-            public static final double wheelBase = 20;
+            public static final double trackWidth = Units.inchesToMeters(20);
+            public static final double wheelBase = Units.inchesToMeters(20);
 
             // Swerve Drive Kinematics Coordinates 
             
             
-            public static final Translation2d frontRightModuleCoords= new Translation2d(wheelBase / 2, trackWidth / 2);
-            public static final Translation2d frontLeftModuleCoords= new Translation2d(wheelBase / 2, - trackWidth / 2);
+            public static final Translation2d frontLeftModuleCoords= new Translation2d(wheelBase / 2, trackWidth / 2);
+            public static final Translation2d frontRightModuleCoords= new Translation2d(wheelBase / 2, - trackWidth / 2);
             public static final Translation2d backLeftModuleCoords= new Translation2d(- wheelBase / 2, trackWidth / 2);
             public static final Translation2d backRighttModuleCoords= new Translation2d(- wheelBase / 2, - trackWidth / 2);
         
